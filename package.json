@@ -1,0 +1,52 @@
+{
+  "name": "ultimate_function_nodejs_mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check **/*.js",
+    "prettier:fix": "prettier --write **/*.js",
+    "seed:user": "node DBSeeds/user.seed.js",
+    "docker:build": "docker build -t ultimate_function_nodejs_mongodb .",
+    "docker:run": "docker run -p 3000:3000 --name ultimate_function_container -d ultimate_function_nodejs_mongodb",
+    "docker:logs": "docker logs ultimate_function_container",
+    "docker:stop": "docker stop ultimate_function_container",
+    "docker:start": "docker start ultimate_function_container",
+    "docker:rm": "docker rm ultimate_function_container",
+    "docker:mongodb": "docker run -it -v mongo_volume:/data/db --name mongo_container -d -p 27018:27017 mongo --ipv6"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.3.2",
+    "nodemailer": "^6.9.13",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-perfectionist": "^2.10.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.1.0",
+    "prettier": "3.2.5"
+  }
+}

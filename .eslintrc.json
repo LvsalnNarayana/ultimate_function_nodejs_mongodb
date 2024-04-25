@@ -1,0 +1,93 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": false,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:perfectionist/recommended-line-length",
+    "plugin:prettier/recommended",
+    "plugin:import/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier", "perfectionist"],
+  "rules": {
+    "no-undef": "error",
+    "eqeqeq": "warn",
+    "no-invalid-this": "error",
+    "no-return-assign": "error",
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-useless-concat": "error",
+    "no-useless-return": "error",
+    "no-constant-condition": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|__" }],
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "semi-spacing": "error",
+    "semi": "error",
+    "no-confusing-arrow": "error",
+    "no-duplicate-imports": "error",
+    "no-var": "error",
+    "object-shorthand": "off",
+    "prefer-const": "error",
+    "prefer-template": "warn",
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-mixed-spaces-and-tabs": "warn",
+    "space-before-blocks": "error",
+    "space-in-parens": "error",
+    "space-infix-ops": "error",
+    "space-unary-ops": "error",
+    "max-len": ["error", { "code": 200 }],
+    "max-lines": ["error", { "max": 500 }],
+    "keyword-spacing": "error",
+    "no-mixed-operators": "error",
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+    "no-whitespace-before-property": "error",
+    "nonblock-statement-body-position": "error",
+    "object-property-newline": [
+      "error",
+      { "allowAllPropertiesOnSameLine": true }
+    ],
+    "arrow-spacing": "error",
+    "perfectionist/sort-objects": [
+      "error",
+      {
+        "type": "line-length",
+        "order": "desc"
+      }
+    ],
+    "perfectionist/sort-array-includes": [
+      "error",
+      {
+        "type": "alphabetical",
+        "order": "asc",
+        "spread-last": true
+      }
+    ],
+    "perfectionist/sort-named-imports": [
+      "error",
+      {
+        "type": "line-length",
+        "order": "desc"
+      }
+    ],
+    "perfectionist/sort-interfaces": [
+      "error",
+      {
+        "type": "line-length",
+        "order": "asc"
+      }
+    ]
+  },
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+  },
+    "editor.formatOnSave": true,
+    "eslint.validate": ["javascript"]
+  }
+}
