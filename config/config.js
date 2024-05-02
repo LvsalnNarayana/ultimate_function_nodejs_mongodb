@@ -8,6 +8,8 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 
 export const config = {
   cookieExpiration: process?.env?.JWT_EXPIRATION,
+  emailPass: process?.env?.GMAIL_APP_PASSWORD,
+  emailUser: process?.env?.GMAIL_USER_EMAIL,
   environment: process?.env?.NODE_ENV,
   jwtSecret: process?.env?.JWT_SECRET,
   port: process?.env?.PORT || 3000,
