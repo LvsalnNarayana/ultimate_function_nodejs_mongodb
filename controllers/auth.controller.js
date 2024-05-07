@@ -15,7 +15,11 @@ export const loginController = asyncHandler(async (req, res, next) => {
       res.status(401);
       throw new Error("Invalid Credentials");
     }
-    req.session.user = { username: user.username, id: user._id };
+    req.session.user = {
+      subscriptionId: user.subscriptionId,
+      username: user.username,
+      id: user.id,
+    };
     req.session.save();
     res.json({
       data: req.session.user.username,
@@ -48,8 +52,10 @@ export const logoutController = asyncHandler(async (req, res, next) => {
       if (err) {
         throw err;
       }
-
-      res.clearCookie("ultimateToken");
+      res.clearCookie("ultimateToken", {
+        sameSite: "lax",
+        httpOnly: true,
+      });
       res.status(200).json({ message: "Logout successful" });
     });
   } catch (error) {
@@ -66,7 +72,7 @@ export const checkUsername = asyncHandler(async (req, res) => {
 });
 export const getSession = asyncHandler(async (req, res) => {
   if (!req.session || !req.session.user) {
-    res.status(404).send({ message: "No active session or user found" });
+    res.status(200).send({ message: "No active session or user found" });
   } else {
     res.status(200).send({ user: req.session.user });
   }

@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
     subscriptionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
+      default: null,
     },
     roles: {
       enum: ["user", "admin"],

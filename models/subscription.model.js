@@ -3,15 +3,16 @@ import mongoose from "mongoose";
 
 const subscriptionSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      unique: true,
+      ref: "User",
+    },
     status: {
       enum: ["ACTIVE", "INACTIVE", "EXPIRED"],
       default: "ACTIVE",
       type: String,
-    },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
     },
     title: {
       enum: ["PRO", "ULTIMATE"],
@@ -75,7 +76,7 @@ subscriptionSchema.statics.findSubscriptionDetails = async function (userId) {
       .populate("user", "email username")
       .exec();
     if (!subscription) {
-      throw new Error("No active subscription found for this user.");
+      return null;
     }
     const details = {
       remainingDays: subscription.remainingDays,
@@ -95,34 +96,33 @@ subscriptionSchema.statics.purchaseSubscription = async function (
   userId,
   endDate,
 ) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
   try {
-    const subscription = await this.create(
-      [
-        {
-          endDate: endDate,
-          user: userId,
-        },
-      ],
-      { session: session },
-    );
-
-    await mongoose.model("User").findByIdAndUpdate(
-      userId,
-      {
-        $set: { subscriptionId: subscription[0]._id },
-      },
-      { session: session },
-    );
-
-    await session.commitTransaction();
-    session.endSession();
-    return subscription[0];
-  } catch (err) {
-    await session.abortTransaction();
-    session.endSession();
-    throw err;
+    const currentDate = new Date();
+    const NewEndDate = new Date(currentDate);
+    switch (endDate) {
+      case "1m":
+        NewEndDate.setMonth(currentDate.getMonth() + 1);
+        break;
+      case "4m":
+        NewEndDate.setMonth(currentDate.getMonth() + 4);
+        break;
+      default:
+        throw new Error("Invalid end date option");
+    }
+    const subscription = await this.create({
+      endDate: NewEndDate,
+      user: userId,
+    });
+    await mongoose.model("User").findByIdAndUpdate(userId, {
+      $set: { subscriptionId: subscription.id },
+    });
+    return subscription;
+  } catch (error) {
+    if (error.code === 11000) {
+      throw new Error("Subscription already exists for this user.");
+    } else {
+      throw new Error(error.message);
+    }
   }
 };
 const Subscription = mongoose.model("Subscription", subscriptionSchema);
